@@ -1,0 +1,10 @@
+MOODSENSE FACIAL-EXPRESSION MODEL EVALUATION
+============================================
+Model: FER-2013 compact CNN (ONNX)
+Evaluation data: FER-2013 PrivateTest (3,589 images)
+Accuracy: 0.6442
+Balanced accuracy: 0.6183
+Macro F1: 0.6262
+Macro ROC-AUC OvR: 0.9084
+
+Boundary: visible-expression classification is not direct measurement of internal mood or diagnosis.

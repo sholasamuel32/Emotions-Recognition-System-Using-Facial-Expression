@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — MoodSense AI{% endblock %}
+{% block content %}
+<main class="dashboard-shell">
+  <section class="welcome-row">
+    <div><span class="eyebrow">Personal mood journal</span><h1>Good to see you, {{ g.user['full_name'].split()[0] }}.</h1><p>Describe the experience in your own words. The model will reflect the emotional pattern it detects.</p></div>
+    <div class="model-chip"><span>Model status</span><b>● Both engines ready locally</b><small>Text classifier + facial-expression CNN</small></div>
+  </section>
+
+  <section class="analysis-grid" id="analyse">
+    <form class="analyser-card" id="analysisForm">
+      <div class="card-heading"><div><span class="eyebrow">Multimodal mood check-in</span><h2>How are you feeling?</h2></div><span class="private-badge">● Private record</span></div>
+      <div class="mode-switch" role="tablist">
+        <button type="button" class="active" data-mode="text">✎ Type</button>
+        <button type="button" data-mode="speech">● Speak</button>
+        <button type="button" data-mode="face">▣ Face</button>
+      </div>
+      <div id="textInputPanel">
+        <div class="text-box">
+          <textarea id="moodText" maxlength="2000" rows="8" placeholder="Write freely… for example, ‘Today felt overwhelming because…’"></textarea>
+          <div><span id="characterCount">0 / 2,000</span><button type="button" id="microphoneButton" class="microphone-button" hidden>● Start speaking</button></div>
+        </div>
+        <div class="examples"><span>Try an example:</span>
+          <button type="button" data-example="I am grateful because my presentation went very well today.">1</button>
+          <button type="button" data-example="I have too many deadlines and I cannot stop worrying.">2</button>
+          <button type="button" data-example="Everything feels quiet, settled, and under control.">3</button>
+        </div>
+      </div>
+
+      <div id="faceInputPanel" class="face-input-panel" hidden>
+        <div class="camera-stage">
+          <video id="cameraVideo" autoplay playsinline muted hidden></video>
+          <img id="facePreview" alt="Selected facial-expression preview" hidden>
+          <div id="cameraPlaceholder"><span>◎</span><b>Use a clear, front-facing photo</b><small>Your image is analysed in memory and is not saved.</small></div>
+          <canvas id="cameraCanvas" hidden></canvas>
+        </div>
+        <div class="face-actions">
+          <button type="button" id="startCameraButton" class="face-control">● Start camera</button>
+          <button type="button" id="captureButton" class="face-control" hidden>▣ Capture photo</button>
+          <label class="face-control upload-control" for="faceFile">Upload photo</label>
+          <input id="faceFile" type="file" accept="image/jpeg,image/png,image/webp" hidden>
+        </div>
+        <p class="camera-tip">Best result: one face, even lighting, no sunglasses, and the face looking toward the camera.</p>
+      </div>
+      <p id="analysisError" class="inline-error" hidden></p>
+      <button class="primary-button full" id="analyseButton" type="submit">Analyse and save my mood →</button>
+      <small class="fine-print">Text and predictions are saved locally. Submitted facial images are not retained.</small>
+    </form>
+
+    <section class="result-card empty" id="resultCard" aria-live="polite">
+      <div id="emptyResult"><span class="result-placeholder">✦</span><h2>Your reflection will appear here.</h2><p>The result includes the predicted mood, confidence, influential words, and full probability distribution.</p></div>
+      <div id="resultContent" hidden>
+        <div class="result-heading"><span class="eyebrow">Model reflection</span><span id="savedBadge">✓ Saved</span></div>
+        <div class="mood-result"><span id="resultEmoji"></span><div><small id="resultLead">Detected pattern</small><h2 id="resultMood"></h2><p id="resultConfidence"></p></div></div>
+        <p id="resultDescription" class="result-description"></p>
+        <div id="urgentSupport" class="urgent-support" hidden><b>Please get human support now.</b><p>If you may harm yourself or another person, contact local emergency services or go to the nearest emergency department. Stay with a trusted person if possible.</p></div>
+        <div class="signal-box"><span>Model observations</span><div id="signalList"></div></div>
+        <div class="probability-box"><div><b>Class probabilities</b><small>Model estimate</small></div><div id="probabilityList"></div></div>
+        <div class="suggestion-box"><span>✦</span><div><b>A gentle next step</b><p id="resultSuggestion"></p></div></div>
+        <a class="refresh-link" href="{{ url_for('dashboard') }}#history">Refresh dashboard to view the new record ↓</a>
+      </div>
+    </section>
+  </section>
+
+  <section class="history-section" id="history">
+    <div class="section-heading"><div><span class="eyebrow">Your private record</span><h2>Mood history and insights</h2><p>Every record below belongs to your account.</p></div>
+      {% if insights.total %}<div class="history-actions"><a href="{{ url_for('export_history') }}">Export CSV</a><form method="post" action="{{ url_for('clear_history') }}" onsubmit="return confirm('Delete your entire mood history permanently?');"><input type="hidden" name="csrf_token" value="{{ csrf_token }}"><button type="submit">Clear all</button></form></div>{% endif %}
+    </div>
+    {% if insights.total %}
+    <div class="insight-grid">
+      <article><span>Total check-ins</span><b>{{ insights.total }}</b><small>all saved records</small></article>
+      <article><span>Most frequent mood</span><b class="mood-stat">{{ mood_details[insights.dominant_mood]['emoji'] }} {{ mood_details[insights.dominant_mood]['label'] }}</b><small>based on saved history</small></article>
+      <article><span>Average confidence</span><b>{{ insights.average_confidence }}%</b><small>across all predictions</small></article>
+      <article><span>Mood composition</span><div class="mood-strip">{% for item in insights.counts %}<i title="{{ mood_details[item.predicted_mood]['label'] }}: {{ item.count }}" style="width:{{ (item.count / insights.total * 100)|round(2) }}%;background:{{ mood_details[item.predicted_mood]['colour'] }}"></i>{% endfor %}</div><small>{{ insights.counts|length }} mood class{{ '' if insights.counts|length == 1 else 'es' }} observed</small></article>
+    </div>
+    <div class="timeline-heading"><h3>Recent check-ins</h3><span>Newest first</span></div>
+    <div class="record-list">
+      {% for record in records %}
+      {% set mood = mood_details[record['predicted_mood']] %}
+      <article class="record-row">
+        <span class="record-emoji" style="background:{{ mood['colour'] }}1c;border-color:{{ mood['colour'] }}55">{{ mood['emoji'] }}</span>
+        <div><div class="record-title"><b style="color:{{ mood['colour'] }}">{{ mood['label'] }}</b><span>{{ record['confidence']|round(1) }}% confidence</span></div><p>{{ record['input_text'] }}</p><small>{% if record['input_method'] == 'speech' %}● Spoken{% elif record['input_method'] == 'face_camera' %}▣ Camera expression{% elif record['input_method'] == 'face_upload' %}▧ Uploaded expression{% else %}✎ Typed{% endif %} · {{ record['created_at'] }}</small></div>
+        <form method="post" action="{{ url_for('delete_record', record_id=record['id']) }}" onsubmit="return confirm('Delete this mood record permanently?');"><input type="hidden" name="csrf_token" value="{{ csrf_token }}"><button class="delete-button" title="Delete record" aria-label="Delete record">×</button></form>
+      </article>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-history"><span>◌</span><h3>Your first pattern starts with one check-in.</h3><p>Analyse your mood above and the first record will appear here.</p><a href="#analyse">Start a check-in ↑</a></div>
+    {% endif %}
+  </section>
+
+  <section class="boundary-card"><div><span class="eyebrow light">Responsible use</span><h2>Technology with clear boundaries.</h2></div><div><p>MoodSense identifies language patterns or visible facial-expression classes. A facial expression is not the same as a person's internal mood, and neither engine can understand the whole person or diagnose a health condition.</p><p><b>Emergency:</b> If you may harm yourself or someone else, contact local emergency services or a trusted person immediately.</p></div></section>
+</main>
+{% endblock %}
+{% block scripts %}<script src="{{ url_for('static', filename='js/app.js') }}"></script>{% endblock %}

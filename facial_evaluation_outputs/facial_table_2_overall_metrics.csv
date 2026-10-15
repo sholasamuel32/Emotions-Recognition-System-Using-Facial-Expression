@@ -1,0 +1,9 @@
+metric,value
+accuracy,0.6441905823349122
+balanced_accuracy,0.6182688138019721
+macro_f1,0.6261952021335878
+weighted_f1,0.6428119844580946
+macro_roc_auc_ovr,0.9083922597585632
+expected_calibration_error_10_bins,0.07656424515131188
+multiclass_brier_score,0.4780722873425032
+mean_confidence,0.720754827486224

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% set is_register = mode == 'register' %}
+{% block title %}{{ 'Create account' if is_register else 'Sign in' }} — MoodSense AI{% endblock %}
+{% block content %}
+<main class="auth-shell">
+  <section class="auth-copy">
+    <span class="eyebrow">Local and private</span>
+    <h1>{{ 'Begin your mood journal.' if is_register else 'Welcome back.' }}</h1>
+    <p>Your account separates your predictions from every other user of this installation.</p>
+    <a href="{{ url_for('index') }}">← Return to home</a>
+  </section>
+  <section class="auth-card">
+    <span class="eyebrow">{{ 'New account' if is_register else 'Account access' }}</span>
+    <h2>{{ 'Create your account' if is_register else 'Sign in to continue' }}</h2>
+    <form method="post">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token }}">
+      {% if is_register %}
+      <label>Full name<input name="full_name" autocomplete="name" required minlength="2" value="{{ request.form.get('full_name', '') }}"></label>
+      {% endif %}
+      <label>Email address<input type="email" name="email" autocomplete="email" required value="{{ request.form.get('email', '') }}"></label>
+      <label>Password<input type="password" name="password" autocomplete="{{ 'new-password' if is_register else 'current-password' }}" required minlength="8"></label>
+      <button class="primary-button full" type="submit">{{ 'Create account' if is_register else 'Sign in' }} →</button>
+    </form>
+    <p>{{ 'Already registered?' if is_register else 'Do not have an account?' }}
+      <a href="{{ url_for('login') if is_register else url_for('register') }}">{{ 'Sign in' if is_register else 'Create one' }}</a>
+    </p>
+  </section>
+</main>
+{% endblock %}

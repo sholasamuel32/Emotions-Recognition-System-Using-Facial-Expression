@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}MoodSense AI — Local Mood Detection{% endblock %}
+{% block content %}
+<main>
+  <section class="landing-hero">
+    <div>
+      <span class="eyebrow">Private multimodal mood journal</span>
+      <h1>Reflect through<br><em>words or expression.</em></h1>
+      <p>Type, speak, upload a photo, or use your webcam. MoodSense analyses language or visible facial-expression patterns and keeps each user's records separately on the local computer.</p>
+      <div class="hero-actions">
+        <a class="primary-button" href="{{ url_for('register') }}">Create a local account →</a>
+        <a class="secondary-button" href="{{ url_for('login') }}">Sign in</a>
+      </div>
+      <div class="trust-row">
+        <span><b>2</b> local ML engines</span>
+        <span><b>SQLite</b> local records</span>
+        <span><b>TF–IDF + CNN</b> models</span>
+      </div>
+    </div>
+    <div class="preview-card">
+      <span class="eyebrow">Example reflection</span>
+      <div class="preview-mood"><b>😌</b><div><small>Your words feel</small><h2>Calm</h2></div></div>
+      <p>“I feel peaceful and my thoughts are finally settled after a long day.”</p>
+      <div class="mock-bars">
+        <label>Calm <i><b style="width:78%"></b></i><span>78%</span></label>
+        <label>Happy <i><b style="width:13%"></b></i><span>13%</span></label>
+        <label>Neutral <i><b style="width:6%"></b></i><span>6%</span></label>
+      </div>
+      <small>Demonstration only. Actual scores come from the trained local model.</small>
+    </div>
+  </section>
+  <section class="feature-band">
+    <article><b>01</b><h3>Choose your input</h3><p>Use typed text, speech, an uploaded photo, or a live webcam snapshot.</p></article>
+    <article><b>02</b><h3>Understand the output</h3><p>View the leading class, probability distribution, and model observations.</p></article>
+    <article><b>03</b><h3>Keep individual records</h3><p>Every account has a private SQLite-backed history and summary dashboard.</p></article>
+  </section>
+</main>
+{% endblock %}

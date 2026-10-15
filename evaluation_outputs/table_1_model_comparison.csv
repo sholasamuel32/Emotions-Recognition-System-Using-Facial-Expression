@@ -1,0 +1,4 @@
+model,accuracy,macro_precision,macro_recall,macro_f1,weighted_f1
+Logistic Regression,1.0,1.0,1.0,1.0,1.0
+SGD Log-Loss Classifier,1.0,1.0,1.0,1.0,1.0
+Multinomial Naive Bayes,0.997449,0.997494,0.997449,0.997449,0.997449

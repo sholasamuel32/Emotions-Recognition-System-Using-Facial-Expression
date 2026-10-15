@@ -1,0 +1,111 @@
+{
+  "project": "MoodSense AI Local",
+  "model_name": "Logistic Regression",
+  "model_file": "mood_pipeline.joblib",
+  "random_state": 42,
+  "dataset_rows": 1960,
+  "training_rows": 1568,
+  "test_rows": 392,
+  "classes": [
+    "angry",
+    "anxious",
+    "calm",
+    "excited",
+    "happy",
+    "neutral",
+    "sad"
+  ],
+  "dataset_note": "Synthetic, curated demonstration data; not clinical data.",
+  "metrics": {
+    "accuracy": 1.0,
+    "macro_precision": 1.0,
+    "macro_recall": 1.0,
+    "macro_f1": 1.0,
+    "macro_roc_auc_ovr": 1.0,
+    "cv_macro_f1_mean": 1.0,
+    "cv_macro_f1_std": 0.0
+  },
+  "candidate_results": [
+    {
+      "model": "Logistic Regression",
+      "accuracy": 1.0,
+      "macro_precision": 1.0,
+      "macro_recall": 1.0,
+      "macro_f1": 1.0,
+      "weighted_f1": 1.0
+    },
+    {
+      "model": "SGD Log-Loss Classifier",
+      "accuracy": 1.0,
+      "macro_precision": 1.0,
+      "macro_recall": 1.0,
+      "macro_f1": 1.0,
+      "weighted_f1": 1.0
+    },
+    {
+      "model": "Multinomial Naive Bayes",
+      "accuracy": 0.997449,
+      "macro_precision": 0.997494,
+      "macro_recall": 0.997449,
+      "macro_f1": 0.997449,
+      "weighted_f1": 0.997449
+    }
+  ],
+  "classification_report": {
+    "angry": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 56.0
+    },
+    "anxious": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 56.0
+    },
+    "calm": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 56.0
+    },
+    "excited": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 56.0
+    },
+    "happy": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 56.0
+    },
+    "neutral": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 56.0
+    },
+    "sad": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 56.0
+    },
+    "accuracy": 1.0,
+    "macro avg": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 392.0
+    },
+    "weighted avg": {
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1-score": 1.0,
+      "support": 392.0
+    }
+  }
+}

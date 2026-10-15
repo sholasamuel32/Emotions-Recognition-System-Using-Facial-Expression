@@ -1,0 +1,149 @@
+{
+  "project": "MoodSense AI Local \u2014 Facial Expression Engine",
+  "model_name": "FER-2013 compact CNN (ONNX)",
+  "model_file": "facial_expression_model.onnx",
+  "classes": [
+    "angry",
+    "disgust",
+    "fear",
+    "happy",
+    "sad",
+    "surprise",
+    "neutral"
+  ],
+  "evaluation_split": "FER-2013 PrivateTest",
+  "evaluation_rows": 3589,
+  "important_boundary": "Facial expression classification is not direct measurement of internal mood or a diagnosis.",
+  "metrics": {
+    "accuracy": 0.6441905823349122,
+    "balanced_accuracy": 0.6182688138019721,
+    "macro_f1": 0.6261952021335878,
+    "weighted_f1": 0.6428119844580946,
+    "macro_roc_auc_ovr": 0.9083922597585632,
+    "expected_calibration_error_10_bins": 0.07656424515131188,
+    "multiclass_brier_score": 0.4780722873425032,
+    "mean_confidence": 0.720754827486224
+  },
+  "classification_report": {
+    "angry": {
+      "precision": 0.5618860510805501,
+      "recall": 0.5824847250509165,
+      "f1-score": 0.572,
+      "support": 491.0
+    },
+    "disgust": {
+      "precision": 0.7380952380952381,
+      "recall": 0.5636363636363636,
+      "f1-score": 0.6391752577319587,
+      "support": 55.0
+    },
+    "fear": {
+      "precision": 0.4816414686825054,
+      "recall": 0.42234848484848486,
+      "f1-score": 0.450050454086781,
+      "support": 528.0
+    },
+    "happy": {
+      "precision": 0.8627450980392157,
+      "recall": 0.850967007963595,
+      "f1-score": 0.856815578465063,
+      "support": 879.0
+    },
+    "sad": {
+      "precision": 0.5067340067340067,
+      "recall": 0.5067340067340067,
+      "f1-score": 0.5067340067340067,
+      "support": 594.0
+    },
+    "surprise": {
+      "precision": 0.7050691244239631,
+      "recall": 0.7355769230769231,
+      "f1-score": 0.72,
+      "support": 416.0
+    },
+    "neutral": {
+      "precision": 0.6132352941176471,
+      "recall": 0.6661341853035144,
+      "f1-score": 0.6385911179173047,
+      "support": 626.0
+    },
+    "accuracy": 0.6441905823349122,
+    "macro avg": {
+      "precision": 0.6384866115961609,
+      "recall": 0.6182688138019721,
+      "f1-score": 0.6261952021335878,
+      "support": 3589.0
+    },
+    "weighted avg": {
+      "precision": 0.642890770603131,
+      "recall": 0.6441905823349122,
+      "f1-score": 0.6428119844580946,
+      "support": 3589.0
+    }
+  },
+  "confusion_matrix": [
+    [
+      286,
+      3,
+      52,
+      12,
+      73,
+      14,
+      51
+    ],
+    [
+      14,
+      31,
+      5,
+      1,
+      2,
+      1,
+      1
+    ],
+    [
+      76,
+      2,
+      223,
+      23,
+      96,
+      69,
+      39
+    ],
+    [
+      29,
+      1,
+      24,
+      748,
+      22,
+      18,
+      37
+    ],
+    [
+      66,
+      3,
+      59,
+      29,
+      301,
+      10,
+      126
+    ],
+    [
+      12,
+      1,
+      61,
+      21,
+      6,
+      306,
+      9
+    ],
+    [
+      26,
+      1,
+      39,
+      33,
+      94,
+      16,
+      417
+    ]
+  ]
+}

@@ -1,0 +1,18 @@
+MOODSENSE AI MODEL EVALUATION SUMMARY
+====================================
+Selected model: Logistic Regression
+Dataset size: 1,960
+Training rows: 1,568
+Test rows: 392
+
+accuracy: 1.0
+macro_precision: 1.0
+macro_recall: 1.0
+macro_f1: 1.0
+macro_roc_auc_ovr: 1.0
+cv_macro_f1_mean: 1.0
+cv_macro_f1_std: 0.0
+
+Interpretation boundary:
+These are prototype results on a balanced synthetic, curated dataset.
+They do not establish clinical or unrestricted real-world validity.
